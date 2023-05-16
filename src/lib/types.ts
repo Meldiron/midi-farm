@@ -1,0 +1,1 @@
+export type Field = {id: string, level: number, needsWater: boolean, died: boolean};

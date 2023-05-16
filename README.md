@@ -1,3 +1,6 @@
+- on key up should only changer currentY when that key is considered current
+- What if they lose all money?
+
 # create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
