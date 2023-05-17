@@ -24,7 +24,7 @@
 	let gameStarted = false;
 	let error = '';
 
-	let currentY = 0;
+	let currentY = -1;
 
 	let downKeys: string[] = [];
 
@@ -33,6 +33,28 @@
 			connect();
 		}
 	});
+
+	function keyToAxis(name: string) {
+		let y = 0;
+
+		if (name === 'C') {
+			y = 0;
+		} else if (name === 'D') {
+			y = 1;
+		} else if (name === 'E') {
+			y = 2;
+		} else if (name === 'F') {
+			y = 3;
+		} else if (name === 'G') {
+			y = 4;
+		} else if (name === 'A') {
+			y = 5;
+		} else if (name === 'B') {
+			y = 6;
+		}
+
+		return y;
+	}
 
 	async function connect() {
 		try {
@@ -60,40 +82,10 @@
 				}
 
 				if (e.note.octave === 3) {
-					if (e.note.name === 'C') {
-						currentY = 0;
-					} else if (e.note.name === 'D') {
-						currentY = 1;
-					} else if (e.note.name === 'E') {
-						currentY = 2;
-					} else if (e.note.name === 'F') {
-						currentY = 3;
-					} else if (e.note.name === 'G') {
-						currentY = 4;
-					} else if (e.note.name === 'A') {
-						currentY = 5;
-					} else if (e.note.name === 'B') {
-						currentY = 6;
-					}
+					currentY = keyToAxis(e.note.name);
 				} else if (e.note.octave === 4) {
 					setTimeout(() => {
-						let currentX = 0;
-
-						if (e.note.name === 'C') {
-							currentX = 0;
-						} else if (e.note.name === 'D') {
-							currentX = 1;
-						} else if (e.note.name === 'E') {
-							currentX = 2;
-						} else if (e.note.name === 'F') {
-							currentX = 3;
-						} else if (e.note.name === 'G') {
-							currentX = 4;
-						} else if (e.note.name === 'A') {
-							currentX = 5;
-						} else if (e.note.name === 'B') {
-							currentX = 6;
-						}
+						const currentX = keyToAxis(e.note.name);
 
 						$actions = `${currentX}_${currentY}`;
 					}, 100);
@@ -110,7 +102,10 @@
 				}
 
 				if (e.note.octave === 3) {
-					currentY = 0;
+					const axis = keyToAxis(e.note.name);
+					if (currentY === axis) {
+						currentY = -1;
+					}
 				} else if (e.note.octave === 4) {
 					$actions = '';
 				}
@@ -127,32 +122,64 @@
 	<div class="relative">
 		<div class="absolute right-[100%] top-[56px] h-[calc(100%-56px)]">
 			<div class="h-full mr-2 grid grid-rows-4 text-white text-2xl text-center font-bold gap-4">
-				<div class={`${downKeys.includes('C3') ? 'bg-[#84c273]' : ''} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}>
+				<div
+					class={`${
+						downKeys.includes('C3') ? 'bg-[#84c273]' : ''
+					} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}
+				>
 					C<span class="text-lg text-white/50">3</span>
 				</div>
-				<div class={`${downKeys.includes('D3') ? 'bg-[#84c273]' : ''} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}>
+				<div
+					class={`${
+						downKeys.includes('D3') ? 'bg-[#84c273]' : ''
+					} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}
+				>
 					D<span class="text-lg text-white/50">3</span>
 				</div>
-				<div class={`${downKeys.includes('E3') ? 'bg-[#84c273]' : ''} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}>
+				<div
+					class={`${
+						downKeys.includes('E3') ? 'bg-[#84c273]' : ''
+					} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}
+				>
 					E<span class="text-lg text-white/50">3</span>
 				</div>
-				<div class={`${downKeys.includes('F3') ? 'bg-[#84c273]' : ''} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}>
+				<div
+					class={`${
+						downKeys.includes('F3') ? 'bg-[#84c273]' : ''
+					} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}
+				>
 					F<span class="text-lg text-white/50">3</span>
 				</div>
 			</div>
 		</div>
 
 		<div class="mb-2 grid grid-cols-4 text-white text-2xl text-center font-bold gap-4">
-			<div class={`${downKeys.includes('C4') ? 'bg-[#84c273]' : ''} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}>
+			<div
+				class={`${
+					downKeys.includes('C4') ? 'bg-[#84c273]' : ''
+				} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}
+			>
 				C<span class="text-lg text-white/50">4</span>
 			</div>
-			<div class={`${downKeys.includes('D4') ? 'bg-[#84c273]' : ''} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}>
+			<div
+				class={`${
+					downKeys.includes('D4') ? 'bg-[#84c273]' : ''
+				} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}
+			>
 				D<span class="text-lg text-white/50">4</span>
 			</div>
-			<div class={`${downKeys.includes('E4') ? 'bg-[#84c273]' : ''} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}>
+			<div
+				class={`${
+					downKeys.includes('E4') ? 'bg-[#84c273]' : ''
+				} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}
+			>
 				E<span class="text-lg text-white/50">4</span>
 			</div>
-			<div class={`${downKeys.includes('F4') ? 'bg-[#84c273]' : ''} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}>
+			<div
+				class={`${
+					downKeys.includes('F4') ? 'bg-[#84c273]' : ''
+				} p-2 rounded-xl relative row-span-1 gap-1 flex items-center justify-center`}
+			>
 				F<span class="text-lg text-white/50">4</span>
 			</div>
 		</div>

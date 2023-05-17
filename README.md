@@ -1,4 +1,3 @@
-- on key up should only changer currentY when that key is considered current
 - What if they lose all money?
 
 # create-svelte
